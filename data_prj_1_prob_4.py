@@ -16,17 +16,23 @@ def stacked_chart_plot(stacked_chart_data: dict, title: str):
     teams=list(teams)
     # get season 1 team wise total matches played
     all_seasons = sorted(stacked_chart_data.keys())
-    season1_matches_played_by_all_teams = []
-    for team in teams:
-        season1_matches_played_by_all_teams.append(stacked_chart_data[all_seasons[0]].get(team, 0))
+    
+    seasonwise_matches_played_by_all_teams = []
+    i=0
+    for season in all_seasons:
+        seasonwise_matches_played_by_all_teams.append([])
+        for team in teams:
+            seasonwise_matches_played_by_all_teams[i].append(stacked_chart_data[season].get(team, 0))
+        i+=1
         
-    season2_matches_played_by_all_teams = []
-    for team in teams:
-        season2_matches_played_by_all_teams.append(stacked_chart_data[all_seasons[1]].get(team, 0))
     # Creating plot
     fig = plt.figure()
-    plt.bar(teams, season1_matches_played_by_all_teams)
-    plt.bar(teams, season2_matches_played_by_all_teams, bottom=season1_matches_played_by_all_teams)
+    stack_current_height = [0]*len(teams)
+    for season_matches in seasonwise_matches_played_by_all_teams:
+        plt.bar(teams, season_matches, bottom = stack_current_height)
+        stack_current_height = [sum(x) for x in zip(season_matches, stack_current_height)]
+        
+    # plt.bar(teams, season2_matches_played_by_all_teams, bottom=season1_matches_played_by_all_teams)
     fig.autofmt_xdate() # gives rotation to the x axis titles
     plt.title(title)
 
