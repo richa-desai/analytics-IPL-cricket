@@ -8,6 +8,8 @@ RCB_GRAPH_TITLE = "Total runs scored by top 10 batsman of RCB over the history o
 PLAYERS = "Players"
 UMPIRES_GRAPH_TITLE = "Number of umpires in IPL by country (Non-Indians)"
 INDIA = "India"
+MATCHES_BY_TEAM_BY_SEASON = "Number of matches played by team by season"
+MATCHES_PLAYED = "Number of matches played"
 
 # numeric constants
 RCB_TOP_TEN = 10
@@ -15,3 +17,4 @@ RCB_TOP_TEN = 10
 # File names
 CSV_FILE_PROB_1_AND_2 = 'deliveries.csv'
 CSV_FILE_PROB_3 = 'umpires.csv'
+CSV_FILE_PROB_4 = 'matches.csv'
