@@ -1,46 +1,45 @@
-#!/usr/bin/env python
-# encoding: utf-8
-''' this file is for IPL prj (Python Data Project)'''
+''' this file is for IPL prj (Python Data Project) Problem 1 and 2'''
 import csv
 import matplotlib.pyplot as plt
 import constants as const
 
-def bar_plot(all_team_wise_runs: dict, xlabel: str, ylabel: str, title: str):
+def bar_plot(bar_plot_data: dict, xlabel: str, ylabel: str, title: str):
     """Pass dict variable having keys to plot on x-axis and pass values to plot on y-axis"""
     # initialisation
-    teams = list(all_team_wise_runs.keys())
-    tot_runs = list(all_team_wise_runs.values())
+    x_axis_keys = list(bar_plot_data.keys())
+    y_axis_values = list(bar_plot_data.values())
     fig = plt.figure()
 
     # creating the bar plot
-    plt.bar(teams, tot_runs, color ='maroon', width = 0.2)
+    plt.bar(x_axis_keys, y_axis_values)
     fig.autofmt_xdate() # gives rotation to the x axis titles
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.title(title)
     plt.tight_layout()
-    plt.show()
 
 def execute():
-    ''' function to plot all graphs'''
+    ''' function to get data to plot all graphs'''
     # get required data from csv in dict and then call appropriate plot functions
-    with open('deliveries.csv', encoding="utf-8") as inputfile:
+    with open(const.CSV_FILE_PROB_1_AND_2, encoding="utf-8") as inputfile:
         team_wise_runs = {}
         rcb_playerwise_runs = {}
-        reader = csv.DictReader(inputfile)
-        next(reader, None)  # skip the header row
+        deliveries_reader = csv.DictReader(inputfile)
 
-        for row in reader:
-            runs_in_this_ball = int(row['total_runs'])
-            batsman_runs_in_this_ball = int(row['batsman_runs'])
+        for delivery in deliveries_reader:
+            runs_in_this_ball = int(delivery['total_runs'])
+            batsman_runs_in_this_ball = int(delivery['batsman_runs'])
 
-            team_wise_runs[row['batting_team']] = (team_wise_runs.get(row['batting_team'], 0)
-                                                   + runs_in_this_ball)
+            team_wise_runs[delivery['batting_team']] = (
+                                                    team_wise_runs.get(delivery['batting_team'], 0)
+                                                    + runs_in_this_ball
+                                                   )
             # get() returns current value corresponding to batting team;
             # will return 0 if that team is not yet added
 
-            if row['batting_team'] == "Royal Challengers Bangalore":
-                rcb_playerwise_runs[row['batsman']] = (rcb_playerwise_runs.get(row['batsman'], 0)
+            if delivery['batting_team'] == "Royal Challengers Bangalore":
+                rcb_playerwise_runs[delivery['batsman']] = (
+                                                    rcb_playerwise_runs.get(delivery['batsman'], 0)
                                                     + batsman_runs_in_this_ball)
 
         runs_by_rcb_players = list(rcb_playerwise_runs.values())
@@ -56,5 +55,6 @@ def execute():
 
         bar_plot(team_wise_runs, const.TEAM, const.TOT_RUNS, const.TEAM_GRAPH_TITLE)
         bar_plot(rcb_top_player_runs, const.PLAYERS, const.TOT_RUNS, const.RCB_GRAPH_TITLE)
+        plt.show()
 
 execute() # driver function
