@@ -4,17 +4,31 @@ import matplotlib.pyplot as plt
 import constants as const
 from functions import bar_plot
 
+def get_match_ids_of_2016():
+    ''' function to get match ids of year 2016'''
+    matches_reader = csv.reader(open(r"matches.csv", encoding="utf-8"))
+    filtered_matches = list(filter(lambda match: '2016' == match[1], matches_reader))
+
+    match_ids_of_2016 = []
+    for match in filtered_matches:
+        match_ids_of_2016.append(match[0])
+    return match_ids_of_2016
+
 def execute():
     ''' function to get data to plot all graphs'''
+    match_ids_of_2016 = get_match_ids_of_2016()
+
     # get required data from csv in dict and then call appropriate plot functions
     with open(const.CSV_FILE_PROB_1_2_7, encoding="utf-8") as inputfile:
         team_wise_runs = {}
         rcb_playerwise_runs = {}
+        extra_runs_in_2016 = {}
         deliveries_reader = csv.DictReader(inputfile)
 
         for delivery in deliveries_reader:
             runs_in_this_ball = int(delivery['total_runs'])
             batsman_runs_in_this_ball = int(delivery['batsman_runs'])
+            extra_runs_in_this_ball = int(delivery['extra_runs'])
 
             team_wise_runs[delivery['batting_team']] = (
                                                     team_wise_runs.get(delivery['batting_team'], 0)
@@ -27,6 +41,14 @@ def execute():
                 rcb_playerwise_runs[delivery['batsman']] = (
                                                     rcb_playerwise_runs.get(delivery['batsman'], 0)
                                                     + batsman_runs_in_this_ball)
+
+            if delivery['match_id'] in match_ids_of_2016:
+                extra_runs_in_2016[delivery['bowling_team']] = (
+                                                            extra_runs_in_2016.get(
+                                                                delivery['bowling_team'], 0
+                                                            )
+                                                            + extra_runs_in_this_ball
+                                                            )
 
         runs_by_rcb_players = list(rcb_playerwise_runs.values())
         runs_by_rcb_players.sort(reverse=True)
@@ -41,6 +63,7 @@ def execute():
 
         bar_plot(team_wise_runs, const.TEAM, const.TOT_RUNS, const.TEAM_GRAPH_TITLE)
         bar_plot(rcb_top_player_runs, const.PLAYERS, const.TOT_RUNS, const.RCB_GRAPH_TITLE)
+        bar_plot(extra_runs_in_2016, const.TEAM, const.TOT_EXTRA_RUNS, const.EXTRA_RUNS_2016)
         plt.show()
 
 execute() # driver function
