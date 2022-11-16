@@ -2,15 +2,8 @@
 import csv
 import matplotlib.pyplot as plt
 import constants as const
+from functions import piechart_plot
 
-def piechart_plot(pie_plot_data: dict, title: str):
-    """Pass dict variable having keys to set the label of each wedge
-    and pass values that represents the array of data values to be plotted
-    """
-    # Creating plot
-    plt.pie(pie_plot_data.values(), labels = pie_plot_data.keys(), autopct='%1.0f%%')
-    plt.title(title)
- 
 def execute():
     ''' function to get data to plot graphs'''
     # get required data from csv in dict and then call plot function

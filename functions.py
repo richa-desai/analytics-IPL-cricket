@@ -18,7 +18,6 @@ def bar_plot(bar_plot_data: dict, xlabel: str, ylabel: str, title: str):
     plt.tight_layout()
     plt.xticks(x_axis_keys)
 
-
 def stacked_chart_plot(stacked_chart_data: dict, x_lable:str, y_lable:str, title: str):
     """Pass dict variable having keys as seasons
     and pass values that are sub dictionaries with teams and total matches played
@@ -53,3 +52,11 @@ def stacked_chart_plot(stacked_chart_data: dict, x_lable:str, y_lable:str, title
     plt.xlabel(x_lable)
     plt.ylabel(y_lable)
     plt.tight_layout()
+
+def piechart_plot(pie_plot_data: dict, title: str):
+    """Pass dict variable having keys to set the label of each wedge
+    and pass values that represents the array of data values to be plotted
+    """
+    # Creating plot
+    plt.pie(pie_plot_data.values(), labels = pie_plot_data.keys(), autopct='%1.0f%%')
+    plt.title(title)
