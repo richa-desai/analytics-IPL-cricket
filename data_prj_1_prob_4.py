@@ -10,12 +10,14 @@ def execute():
     with open(const.CSV_FILE_PROB_4_5, encoding="utf-8") as inputfile:
         season_details = {}
         yearwise_matches_played = {}
+        season_victory_details = {}
         matches_reader = csv.DictReader(inputfile)
 
         for match in matches_reader:
             season_year = int(match['season'])
             team1 = match['team1']
             team2 = match['team2']
+            winner_team = match['winner']
             season_details[season_year] = (
                                         season_details.get(season_year,{})
                                         )
@@ -31,6 +33,14 @@ def execute():
                                                     yearwise_matches_played.get(season_year, 0)
                                                     + 1
                                                 )
+            season_victory_details[season_year] = (
+                                                    season_victory_details.get(season_year, {})
+                                                )
+            season_victory_details[season_year][winner_team] = (
+                                                                season_victory_details[
+                                                                    season_year].get(winner_team, 0)
+                                                                + 1
+                                                            )
 
         stacked_chart_plot(season_details, const.TEAM,
                             const.MATCHES_PLAYED, const.MATCHES_BY_TEAM_BY_SEASON
@@ -38,6 +48,9 @@ def execute():
         bar_plot(yearwise_matches_played, const.YEAR,
                  const.MATCHES_PLAYED, const.MATCHES_BY_TEAM_BY_YEAR
                  )
+        stacked_chart_plot(season_victory_details, const.TEAM,
+                           const.MATCHES_WON, const.MATCHES_WON_BY_TEAM_BY_YEAR
+                           )
         # show plot
         plt.show()
 
