@@ -19,6 +19,6 @@ MATCHES_WON_BY_TEAM_BY_YEAR = "Number of matches won per team per year in IPL"
 RCB_TOP_TEN = 10
 
 # File names
-CSV_FILE_PROB_1_AND_2 = 'deliveries.csv'
+CSV_FILE_PROB_1_2_7 = 'deliveries.csv'
 CSV_FILE_PROB_3 = 'umpires.csv'
-CSV_FILE_PROB_4_5 = 'matches.csv'
+CSV_FILE_PROB_4_5_6 = 'matches.csv'
