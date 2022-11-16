@@ -1,5 +1,5 @@
 ''' This file has all the functions '''
-
+import csv
 import matplotlib.pyplot as plt
 
 def bar_plot(bar_plot_data: dict, xlabel: str, ylabel: str, title: str):
@@ -60,3 +60,14 @@ def piechart_plot(pie_plot_data: dict, title: str):
     # Creating plot
     plt.pie(pie_plot_data.values(), labels = pie_plot_data.keys(), autopct='%1.0f%%')
     plt.title(title)
+
+def get_match_ids_of_a_year(year: str):
+    ''' function to get match ids of year 2016'''
+    matches_reader = csv.reader(open(r"matches.csv", encoding="utf-8"))
+    filtered_matches = list(filter(lambda match: year == match[1], matches_reader))
+
+    match_ids_of_2016 = []
+    for match in filtered_matches:
+        match_ids_of_2016.append(match[0])
+    return match_ids_of_2016
+

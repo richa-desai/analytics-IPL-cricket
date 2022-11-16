@@ -2,34 +2,26 @@
 import csv
 import matplotlib.pyplot as plt
 import constants as const
-from functions import bar_plot
-
-def get_match_ids_of_2016():
-    ''' function to get match ids of year 2016'''
-    matches_reader = csv.reader(open(r"matches.csv", encoding="utf-8"))
-    filtered_matches = list(filter(lambda match: '2016' == match[1], matches_reader))
-
-    match_ids_of_2016 = []
-    for match in filtered_matches:
-        match_ids_of_2016.append(match[0])
-    return match_ids_of_2016
+from functions import bar_plot, get_match_ids_of_a_year
 
 def execute():
     ''' function to get data to plot all graphs'''
-    match_ids_of_2016 = get_match_ids_of_2016()
+    match_ids_of_2016 = get_match_ids_of_a_year("2016")
+    match_ids_of_2015 = get_match_ids_of_a_year("2015")
 
     # get required data from csv in dict and then call appropriate plot functions
     with open(const.CSV_FILE_PROB_1_2_7, encoding="utf-8") as inputfile:
         team_wise_runs = {}
         rcb_playerwise_runs = {}
         extra_runs_in_2016 = {}
+        bowlerwise_runs_2015 = {}
         deliveries_reader = csv.DictReader(inputfile)
 
         for delivery in deliveries_reader:
             runs_in_this_ball = int(delivery['total_runs'])
             batsman_runs_in_this_ball = int(delivery['batsman_runs'])
             extra_runs_in_this_ball = int(delivery['extra_runs'])
-
+            delivery_bowler = delivery['bowler']
             team_wise_runs[delivery['batting_team']] = (
                                                     team_wise_runs.get(delivery['batting_team'], 0)
                                                     + runs_in_this_ball
@@ -48,6 +40,12 @@ def execute():
                                                                 delivery['bowling_team'], 0
                                                             )
                                                             + extra_runs_in_this_ball
+                                                            )
+            if delivery['match_id'] in match_ids_of_2015:
+                bowlerwise_runs_2015[delivery_bowler] = (
+                                                            bowlerwise_runs_2015.get(
+                                                                delivery_bowler, {}
+                                                            )
                                                             )
 
         runs_by_rcb_players = list(rcb_playerwise_runs.values())
