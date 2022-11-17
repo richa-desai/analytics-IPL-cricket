@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import constants as const
 from functions import bar_plot, stacked_chart_plot
 
+
 def execute():
     ''' function to get data to plot graphs'''
     # get required data from csv in dict and then call plot function
@@ -19,32 +20,32 @@ def execute():
             team2 = match['team2']
             winner_team = match['winner']
             season_details[season_year] = (
-                                        season_details.get(season_year,{})
-                                        )
+                season_details.get(season_year, {})
+            )
             season_details[season_year][team1] = (
-                                                season_details[season_year].get(team1, 0)
-                                                + 1
-                                                )
+                season_details[season_year].get(team1, 0)
+                + 1
+            )
             season_details[season_year][team2] = (
-                                                season_details[season_year].get(team2, 0)
-                                                + 1
-                                                )
+                season_details[season_year].get(team2, 0)
+                + 1
+            )
             yearwise_matches_played[season_year] = (
-                                                    yearwise_matches_played.get(season_year, 0)
-                                                    + 1
-                                                )
+                yearwise_matches_played.get(season_year, 0)
+                + 1
+            )
             season_victory_details[season_year] = (
-                                                    season_victory_details.get(season_year, {})
-                                                )
+                season_victory_details.get(season_year, {})
+            )
             season_victory_details[season_year][winner_team] = (
-                                                                season_victory_details[
-                                                                    season_year].get(winner_team, 0)
-                                                                + 1
-                                                            )
+                season_victory_details[
+                    season_year].get(winner_team, 0)
+                + 1
+            )
 
         stacked_chart_plot(season_details, const.TEAM,
-                            const.MATCHES_PLAYED, const.MATCHES_BY_TEAM_BY_SEASON
-                            )
+                           const.MATCHES_PLAYED, const.MATCHES_BY_TEAM_BY_SEASON
+                           )
         bar_plot(yearwise_matches_played, const.YEAR,
                  const.MATCHES_PLAYED, const.MATCHES_BY_TEAM_BY_YEAR
                  )
@@ -54,4 +55,5 @@ def execute():
         # show plot
         plt.show()
 
-execute() # driver function
+
+execute()  # driver function

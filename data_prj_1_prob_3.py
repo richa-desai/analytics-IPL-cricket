@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import constants as const
 from functions import piechart_plot
 
+
 def execute():
     ''' function to get data to plot graphs'''
     # get required data from csv in dict and then call plot function
@@ -13,13 +14,14 @@ def execute():
 
         for umpire in umpires_reader:
             country_of_umpire = umpire[' country'].strip()
-            if country_of_umpire != const.INDIA :
+            if country_of_umpire != const.INDIA:
                 country_wise_umpire[country_of_umpire] = (
-                                                        country_wise_umpire.get(country_of_umpire,0)
-                                                        + 1
-                                                    )
+                    country_wise_umpire.get(country_of_umpire, 0)
+                    + 1
+                )
         piechart_plot(country_wise_umpire, const.UMPIRES_GRAPH_TITLE)
         # show plot
         plt.show()
 
-execute() # driver function
+
+execute()  # driver function

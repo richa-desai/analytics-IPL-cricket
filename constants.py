@@ -23,6 +23,6 @@ TOP_BOWLER_2015 = "Top 10 economical bowlers in the year 2015"
 RCB_TOP_TEN = 10
 
 # File names
-CSV_FILE_PROB_1_2_7 = 'deliveries.csv'
+CSV_FILE_PROB_1_2_7_8 = 'deliveries.csv'
 CSV_FILE_PROB_3 = 'umpires.csv'
 CSV_FILE_PROB_4_5_6 = 'matches.csv'
