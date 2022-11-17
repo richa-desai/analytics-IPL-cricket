@@ -16,6 +16,8 @@ MATCHES_WON = "Number of matches won"
 MATCHES_WON_BY_TEAM_BY_YEAR = "Number of matches won per team per year in IPL"
 TOT_EXTRA_RUNS = "Total Extra Runs"
 EXTRA_RUNS_2016 = "Extra runs conceded per team in the year 2016"
+ECONOMY = "Economy"
+TOP_BOWLER_2015 = "Top 10 economical bowlers in the year 2015"
 
 # numeric constants
 RCB_TOP_TEN = 10

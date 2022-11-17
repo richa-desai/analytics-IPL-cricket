@@ -1,6 +1,7 @@
 ''' This file has all the functions '''
 import csv
 import matplotlib.pyplot as plt
+import constants as const
 
 def bar_plot(bar_plot_data: dict, xlabel: str, ylabel: str, title: str):
     """Pass dict variable having keys to plot on x-axis and pass values to plot on y-axis"""
@@ -71,3 +72,37 @@ def get_match_ids_of_a_year(year: str):
         match_ids_of_2016.append(match[0])
     return match_ids_of_2016
 
+def get_top_n_batsman(playerwise_runs: dict, top_n: int):
+    ''' function to get top n batsman'''
+    runs_by_batsman = list(playerwise_runs.values())
+    runs_by_batsman.sort(reverse = True)
+    top_n_runs = runs_by_batsman[:top_n]
+
+    # below way of getting top (say) 10 runs scorer will also get players with same score
+    # e.g. 10th and 11th player has same runs, hence both players will be showed in the graph
+    top_player_runs = {}
+    for value in top_n_runs:
+        key = list(playerwise_runs.keys())[list(playerwise_runs.values()).index(value)]
+        top_player_runs[key] = playerwise_runs[key]
+
+    return top_player_runs
+
+def get_top_n_bowlers(bowlerwise_runs: dict, top_n: int):
+    ''' function to get top n bowlers'''
+    ball_count = "Ball count"
+    bowler_run = "Bowler runs"
+    for bowler in bowlerwise_runs:
+        bowlerwise_runs[bowler] = (
+            bowlerwise_runs[bowler][bowler_run] / bowlerwise_runs[bowler][ball_count]
+            )
+
+    runs_bowler = list(bowlerwise_runs.values())
+    runs_bowler.sort()
+    bottom_n_average = runs_bowler[:top_n]
+
+    top_bowler_economy = {}
+    for value in bottom_n_average:
+        key = list(bowlerwise_runs.keys())[list(bowlerwise_runs.values()).index(value)]
+        top_bowler_economy[key] = bowlerwise_runs[key]
+
+    return top_bowler_economy

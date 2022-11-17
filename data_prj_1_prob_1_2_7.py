@@ -2,7 +2,7 @@
 import csv
 import matplotlib.pyplot as plt
 import constants as const
-from functions import bar_plot, get_match_ids_of_a_year
+from functions import bar_plot, get_match_ids_of_a_year, get_top_n_batsman, get_top_n_bowlers
 
 def execute():
     ''' function to get data to plot all graphs'''
@@ -16,12 +16,15 @@ def execute():
         extra_runs_in_2016 = {}
         bowlerwise_runs_2015 = {}
         deliveries_reader = csv.DictReader(inputfile)
+        ball_count = "Ball count"
+        bowler_run = "Bowler runs"
 
         for delivery in deliveries_reader:
             runs_in_this_ball = int(delivery['total_runs'])
             batsman_runs_in_this_ball = int(delivery['batsman_runs'])
             extra_runs_in_this_ball = int(delivery['extra_runs'])
             delivery_bowler = delivery['bowler']
+            
             team_wise_runs[delivery['batting_team']] = (
                                                     team_wise_runs.get(delivery['batting_team'], 0)
                                                     + runs_in_this_ball
@@ -47,21 +50,26 @@ def execute():
                                                                 delivery_bowler, {}
                                                             )
                                                             )
+                bowlerwise_runs_2015[delivery_bowler][bowler_run] = (
+                        bowlerwise_runs_2015[delivery_bowler].get(
+                            bowler_run, 0
+                        )
+                        + int(delivery['total_runs'])
+                        )
+                bowlerwise_runs_2015[delivery_bowler][ball_count] = (
+                        bowlerwise_runs_2015[delivery_bowler].get(
+                            ball_count, 0
+                        )
+                        + 1
+                        )
 
-        runs_by_rcb_players = list(rcb_playerwise_runs.values())
-        runs_by_rcb_players.sort(reverse=True)
-        top_ten_runs = runs_by_rcb_players[:const.RCB_TOP_TEN]
-
-        # below way of getting top (say) 10 runs scorer will also get players with same score
-        # e.g. 10th and 11th player has same runs, hence both players will be showed in the graph
-        rcb_top_player_runs = {}
-        for value in top_ten_runs:
-            key = list(rcb_playerwise_runs.keys())[list(rcb_playerwise_runs.values()).index(value)]
-            rcb_top_player_runs[key] = rcb_playerwise_runs[key]
+        rcb_top_player_runs = get_top_n_batsman(rcb_playerwise_runs, const.RCB_TOP_TEN)
+        top_bowlers_of_2015 = get_top_n_bowlers(bowlerwise_runs_2015, const.RCB_TOP_TEN)
 
         bar_plot(team_wise_runs, const.TEAM, const.TOT_RUNS, const.TEAM_GRAPH_TITLE)
         bar_plot(rcb_top_player_runs, const.PLAYERS, const.TOT_RUNS, const.RCB_GRAPH_TITLE)
         bar_plot(extra_runs_in_2016, const.TEAM, const.TOT_EXTRA_RUNS, const.EXTRA_RUNS_2016)
+        bar_plot(top_bowlers_of_2015, const.PLAYERS, const.ECONOMY, const.TOP_BOWLER_2015)
         plt.show()
 
 execute() # driver function
