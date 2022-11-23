@@ -68,15 +68,17 @@ def piechart_plot(pie_plot_data: dict, title: str):
     plt.title(title)
 
 
-def get_match_ids_of_a_year(year: str):
+def get_match_ids_of_a_year(year: str, matches_csv: str):
     ''' function to get match ids of year 2016'''
-    matches_reader = csv.reader(open(r"matches.csv", encoding="utf-8"))
-    filtered_matches = list(
-        filter(lambda match: year == match[1], matches_reader))
 
-    match_ids_of_2016 = []
-    for match in filtered_matches:
-        match_ids_of_2016.append(match[0])
+    with open(matches_csv, encoding="utf-8") as inputfile:
+        matches_reader = csv.DictReader(inputfile)
+        match_ids_of_2016 = []
+
+        for match in matches_reader:
+            if match['season'] == year:
+                match_ids_of_2016.append(match['id'])
+
     return match_ids_of_2016
 
 
@@ -113,8 +115,8 @@ def get_top_n_bowlers(bowlerwise_runs: dict, top_n: int):
 
     top_bowler_economy = {}
     for value in bottom_n_average:
-        key = list(bowlerwise_runs.keys())[
-            list(bowlerwise_runs.values()).index(value)]
-        top_bowler_economy[key] = bowlerwise_runs[key]
+        for bowler_name, bowler_average in bowlerwise_runs.items(): 
+            if bowler_average == value:
+                top_bowler_economy[bowler_name] = bowler_average
 
     return top_bowler_economy

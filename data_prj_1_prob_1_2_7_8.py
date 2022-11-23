@@ -1,4 +1,4 @@
-''' this file is for IPL prj (Python Data Project) Problem 1 and 2'''
+''' this file is for IPL prj (Python Data Project) Problem 1, 2, 7 and 8'''
 import csv
 import matplotlib.pyplot as plt
 import constants as const
@@ -7,8 +7,8 @@ from functions import bar_plot, get_match_ids_of_a_year, get_top_n_batsman, get_
 
 def execute():
     ''' function to get data to plot all graphs'''
-    match_ids_of_2016 = get_match_ids_of_a_year("2016")
-    match_ids_of_2015 = get_match_ids_of_a_year("2015")
+    match_ids_of_2016 = get_match_ids_of_a_year("2016", "matches.csv")
+    match_ids_of_2015 = get_match_ids_of_a_year("2015", "matches.csv")
 
     # get required data from csv in dict and then call appropriate plot functions
     with open(const.CSV_FILE_PROB_1_2_7_8, encoding="utf-8") as inputfile:

@@ -1,4 +1,4 @@
-''' this file is for IPL prj (Python Data Project) Problem 4'''
+''' this file is for IPL prj (Python Data Project) Problem 4, 5 and 6'''
 import csv
 import matplotlib.pyplot as plt
 import constants as const
