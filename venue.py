@@ -17,18 +17,17 @@ def calculate():
 def transform(venuewise_matches: dict):
     ''' Get most played venue'''
     all_values = venuewise_matches.values()
-    max = 0
+    max1 = 0
     for value in all_values:
-        if value > max:
-            max = value
-    max_played_venue = list(venuewise_matches.keys())[list(venuewise_matches.values()).index(max)]
+        if value > max1:
+            max1 = value
+    max_played_venue = list(venuewise_matches.keys())[list(venuewise_matches.values()).index(max1)]
     return max_played_venue
 
 def execute():
     ''' function to get data'''
     # get required data from csv in dict
     venuewise_matches = calculate()
-    print(venuewise_matches)
     max_played_venue = transform(venuewise_matches)
     print(max_played_venue)
 
